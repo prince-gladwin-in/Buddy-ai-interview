@@ -1,0 +1,68 @@
+{
+  "Software Engineer": [
+    {
+      "question": "Can you walk me through a technically challenging problem you've solved and explain the approach you took?",
+      "ideal_answer": "I faced a challenging problem involving performance optimization of a database query that was causing significant latency. I approached it by profiling the system to identify the bottleneck, analyzing the query execution plan, adding appropriate indexes, and restructuring the query. I also implemented caching for frequently accessed data. The systematic approach of measure, analyze, fix, and verify reduced response time by 80%. I documented the solution and shared learnings with the team."
+    },
+    {
+      "question": "How do you approach designing a scalable system architecture for a high-traffic web application?",
+      "ideal_answer": "For scalable system design I start by understanding the requirements: expected traffic, data volume, consistency needs, and latency requirements. I consider horizontal scaling using load balancers, microservices for independent scaling, caching layers like Redis to reduce database load, CDN for static assets, and message queues for asynchronous processing. Database design includes sharding and read replicas. I also plan for failure with circuit breakers, retries, and health checks. Monitoring and observability are built in from the start."
+    },
+    {
+      "question": "How do you ensure code quality in your projects and what testing strategies do you follow?",
+      "ideal_answer": "Code quality is maintained through multiple layers: writing clean, self-documenting code following SOLID principles, TDD or BDD for critical functionality, unit tests for individual components, integration tests for system behavior, and end-to-end tests for key user flows. I enforce code reviews where no change merges without review, use linters and static analysis tools, and maintain strong test coverage targets. CI/CD pipelines run all tests automatically before deployment. I also value refactoring and managing technical debt proactively."
+    },
+    {
+      "question": "Describe your experience with version control and collaborative development practices.",
+      "ideal_answer": "I use Git daily with branching strategies like Git Flow or trunk-based development depending on team size. For collaboration, I create focused, small pull requests that are easy to review, write clear commit messages explaining the why not just the what, and use feature flags for large changes. I participate actively in code reviews providing constructive feedback. I'm familiar with resolving merge conflicts, rebasing, and maintaining clean commit history. I also document architectural decisions using ADRs."
+    },
+    {
+      "question": "How do you handle technical debt and what strategies do you use to manage it in a fast-paced environment?",
+      "ideal_answer": "Technical debt is inevitable in fast-paced development but must be managed intentionally. I categorize debt by urgency and impact, document it in the backlog, and advocate for allocating 20% of sprint capacity to address it. I use the boy scout rule: always leave code cleaner than you found it. For critical debt I make a business case showing the risk and future cost of not addressing it. I also prevent new debt through code standards, reviews, and automated checks. Balancing speed and quality is a continuous conversation with stakeholders."
+    }
+  ],
+  "Data Scientist": [
+    {
+      "question": "Walk me through a complete end-to-end data science project you've worked on, from problem definition to deployment.",
+      "ideal_answer": "A complete data science project starts with understanding the business problem and translating it into a measurable objective. Then exploratory data analysis to understand the data, identify patterns and anomalies. Feature engineering to create meaningful inputs, followed by model selection and training with appropriate validation strategy. Hyperparameter tuning using cross-validation. Model evaluation using metrics aligned to business goals like precision-recall for imbalanced classes. Then deployment via API or batch pipeline, with monitoring for model drift and performance degradation in production."
+    },
+    {
+      "question": "How do you approach feature selection and engineering in a machine learning project?",
+      "ideal_answer": "Feature engineering is often the most impactful part of a data science project. I start with domain knowledge to create meaningful features, then use statistical methods to understand relationships. For selection I use correlation analysis, mutual information, and model-based importance like Random Forest feature importance or LASSO coefficients. I handle categorical variables with encoding strategies appropriate to cardinality. Time-series data requires lag features, rolling statistics, and seasonality indicators. I also use dimensionality reduction like PCA when features are highly correlated. The goal is to maximize signal while reducing noise and model complexity."
+    },
+    {
+      "question": "Explain how you evaluate and compare machine learning models, especially in business settings.",
+      "ideal_answer": "Model evaluation goes beyond accuracy. I choose metrics aligned with business objectives: for fraud detection precision and recall matter more than accuracy given class imbalance. I use cross-validation to get reliable performance estimates, look at the full confusion matrix, and plot ROC-AUC and precision-recall curves. In business settings I also consider model interpretability, inference latency, and retraining cost. I compare models using statistical significance tests like McNemar's test. Ultimately I translate model performance into business impact, for example the expected revenue gain or cost savings from deploying the model."
+    },
+    {
+      "question": "How do you handle data quality issues and missing values in your datasets?",
+      "ideal_answer": "Data quality is foundational. I start with profiling the data to understand completeness, distributions, and anomalies. For missing values I first understand the mechanism: MCAR, MAR, or MNAR, because it determines the appropriate treatment. Simple approaches include mean or median imputation for random missingness. For more complex patterns I use model-based imputation like KNN or iterative imputer. Sometimes deletion is appropriate if missingness is very low. I also create indicator features to capture the pattern of missingness as it can be informative. I document all transformations and apply the same logic consistently to training and test data."
+    },
+    {
+      "question": "How do you communicate your data science findings to non-technical business stakeholders?",
+      "ideal_answer": "Communicating to non-technical stakeholders requires focusing on business outcomes not technical details. I use visualizations that tell a clear story: charts that show trend, comparison, or distribution relevant to the decision at hand. I lead with the key insight and recommendation, then provide supporting evidence. I use analogies to explain complex concepts. For example explaining a decision tree as a flowchart of business rules. I always quantify impact in business terms: revenue, cost, customer retention. I invite questions and iterate on dashboards based on their needs. The goal is to enable confident decision-making."
+    }
+  ],
+  "Product Manager": [
+    {
+      "question": "How do you prioritize features on your product roadmap when you have more requests than capacity?",
+      "ideal_answer": "Prioritization is a core PM skill. I use a multi-dimensional framework considering customer value, strategic alignment, development effort, and risk. Frameworks like RICE (Reach Impact Confidence Effort) or MoSCoW help structure the conversation. I gather data from customer interviews, usage analytics, support tickets, and sales feedback to understand impact. I align features to the company's OKRs to ensure strategic fit. I also consider dependencies and sequencing. Crucially I communicate the reasoning behind priorities transparently to stakeholders to build trust and manage expectations. Saying no with context is as important as saying yes."
+    },
+    {
+      "question": "Describe how you gather and synthesize user feedback to inform product decisions.",
+      "ideal_answer": "I use a mix of qualitative and quantitative methods to understand users. Qualitative: user interviews, usability tests, ethnographic observation, and support ticket analysis reveal the why behind behavior. Quantitative: product analytics, funnel analysis, A/B test data, and NPS surveys tell us what is happening at scale. I synthesize insights using affinity mapping and job stories to identify patterns. I maintain a continuous discovery cadence: weekly user interviews, monthly analysis review. I also involve engineers and designers in research so the whole team builds empathy. Insights are documented and shared visibly in the team."
+    },
+    {
+      "question": "How do you handle conflicting priorities between engineering, design, sales, and executive stakeholders?",
+      "ideal_answer": "Conflicting stakeholder priorities are normal in product management. My approach is to first understand each stakeholder's underlying need, not just their stated request, because often there is a creative solution that addresses multiple needs. I create shared alignment around data: customer data, business metrics, and strategic goals serve as an objective arbiter. I facilitate stakeholder discussions openly, acknowledge trade-offs honestly, and build a clear decision framework so the criteria are transparent. When escalation is needed I bring it to the right level with a clear recommendation and the key trade-offs articulated. Long-term I invest in building trust with each stakeholder so they believe their input is valued even when I say no."
+    },
+    {
+      "question": "Tell me about a product launch you led. How did you plan, execute, and measure its success?",
+      "ideal_answer": "For a successful product launch I work backward from the launch date. Pre-launch includes finalizing requirements, coordinating with engineering on delivery, working with marketing on positioning and messaging, training sales and support, and preparing documentation. I create a launch readiness checklist covering technical, operational, and go-to-market criteria. During launch I monitor key metrics in real time, have an incident response plan ready, and communicate proactively with stakeholders. Post-launch I measure against success metrics defined before launch: activation rate, feature adoption, impact on retention or revenue. I run a retrospective to capture learnings and iterate quickly based on user feedback."
+    },
+    {
+      "question": "How do you define and measure product success? What metrics do you focus on?",
+      "ideal_answer": "Product success must be tied to business outcomes and user value, not just feature delivery. I work with the team to define a North Star Metric that captures the core value the product delivers, such as weekly active transactions or documents created. I also track input metrics that influence the North Star: acquisition, activation, retention, revenue, and referral using the AARRR framework. I look at leading indicators to catch problems early rather than waiting for lagging revenue metrics. I avoid vanity metrics like page views that do not correlate with value. Dashboards are shared and reviewed regularly with the team. I also use cohort analysis to understand retention trends over time and whether product changes are improving long-term engagement."
+    }
+  ]
+}

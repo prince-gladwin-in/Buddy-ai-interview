@@ -1,0 +1,46 @@
+role,question,optionA,optionB,optionC,optionD,answer
+Software Engineer,What does the acronym REST stand for in web APIs?,Rapid Execution of Server Tasks,Representational State Transfer,Remote Endpoint Streaming Technology,Reliable Event-Sourced Transport,B
+Software Engineer,Which data structure uses LIFO (Last In First Out) order?,Queue,Stack,Linked List,Tree,B
+Software Engineer,What is the time complexity of binary search on a sorted array?,O(n),O(log n),O(n log n),O(1),B
+Software Engineer,Which HTTP method is idempotent and safe?,POST,PUT,GET,DELETE,C
+Software Engineer,In object-oriented programming what does 'polymorphism' mean?,Objects must inherit from one class,Methods behave differently based on the object type,All objects share one constructor,Variables can hold any data type,B
+Software Engineer,What is a 'deadlock' in concurrent programming?,A thread that runs forever,Two threads waiting on each other to release resources,A memory overflow condition,A broken network socket,B
+Software Engineer,Which sorting algorithm has the best average-case time complexity?,Bubble Sort,Selection Sort,Merge Sort,Insertion Sort,C
+Software Engineer,What does 'SOLID' stand for in software design principles?,Single Ordered Logic Integrated Design,Set of OOP Language Interaction Directives,Single responsibility Open-closed Liskov Interface-segregation Dependency-inversion,Scalable Object Lifecycle Integrated Design,C
+Software Engineer,What is the primary purpose of Docker?,Database management,Application containerization,Network routing,Load balancing,B
+Software Engineer,In Git what command is used to create a new branch?,git new,git branch,git fork,git clone,B
+Software Engineer,Which design pattern separates an abstraction from its implementation?,Factory,Observer,Bridge,Decorator,C
+Software Engineer,What is the purpose of an index in a database?,To encrypt data,To speed up data retrieval,To validate data types,To link tables together,B
+Software Engineer,Which protocol is HTTP built on top of?,UDP,FTP,TCP/IP,SMTP,C
+Software Engineer,What does 'Big O notation' describe?,Code readability,Memory usage only,The efficiency and scalability of an algorithm,The number of developers on a project,C
+Software Engineer,What is a race condition?,A competition between two programs,When two threads access and modify shared data concurrently causing unexpected behavior,When a CPU runs out of memory,A network timeout,B
+Data Scientist,What does the term 'overfitting' mean in machine learning?,The model performs well on test data only,The model is too simple to learn patterns,The model memorizes training data and performs poorly on new data,The model takes too long to train,C
+Data Scientist,Which metric is most appropriate for evaluating an imbalanced classification problem?,Accuracy,F1 Score,Mean Squared Error,R-squared,B
+Data Scientist,What is the purpose of cross-validation?,To split data into train and test only,To estimate model generalization performance using multiple data splits,To clean missing values,To normalize features,B
+Data Scientist,Which algorithm is used for dimensionality reduction?,Linear Regression,PCA (Principal Component Analysis),K-Means Clustering,Naive Bayes,B
+Data Scientist,In a confusion matrix what does 'False Positive' mean?,The model correctly predicted a positive class,The model predicted positive but the true label is negative,The model predicted negative but the true label is positive,The model correctly predicted a negative class,B
+Data Scientist,What is the 'curse of dimensionality'?,Too many rows in a dataset,Performance degradation as the number of features increases,Running out of GPU memory,Overly complex neural networks,B
+Data Scientist,Which technique is used to handle missing values by predicting them from other features?,List-wise deletion,Zero imputation,Multiple imputation or model-based imputation,Ignoring the column,C
+Data Scientist,What does 'L1 regularization' do to a model?,Adds all weights squared to the loss,Adds the absolute values of weights to the loss creating sparsity,Drops random neurons during training,Normalizes input features,B
+Data Scientist,What is the output layer activation function typically used in a binary classification neural network?,ReLU,Softmax,Sigmoid,Tanh,C
+Data Scientist,Which statistical assumption does linear regression require the residuals to follow?,Normal distribution,Uniform distribution,Poisson distribution,Exponential distribution,A
+Data Scientist,What is 'gradient descent'?,A tree-based ensemble method,An optimization algorithm that iteratively adjusts model parameters to minimize loss,A method to split datasets,A clustering algorithm,B
+Data Scientist,What is the 'elbow method' used for?,Finding the best regularization parameter,Determining the optimal number of clusters in K-Means,Selecting features for regression,Choosing the best neural network depth,B
+Data Scientist,What does AUC-ROC measure?,The accuracy of a regression model,The model's ability to distinguish between positive and negative classes,The speed of model training,The number of decision tree branches,B
+Data Scientist,Which library is primarily used for deep learning in Python?,Pandas,Scikit-learn,TensorFlow/PyTorch,Matplotlib,C
+Data Scientist,What is 'feature engineering'?,Removing duplicate rows,The process of creating new input features from existing data to improve model performance,Training a model without labels,Deploying a model to production,B
+Product Manager,What does MVP stand for in product development?,Maximum Value Product,Minimum Viable Product,Most Validated Prototype,Master Version Plan,B
+Product Manager,Which framework helps prioritize features by mapping customer value against complexity?,SWOT Analysis,MoSCoW Method,Fibonacci Sequence,PERT Chart,B
+Product Manager,What is the primary goal of a product roadmap?,To list all bugs in the product,To communicate the product vision and planned milestones over time,To track employee performance,To document API endpoints,B
+Product Manager,What does 'North Star Metric' mean in product management?,The metric that measures employee satisfaction,The single most important metric that captures the core value a product delivers to customers,The revenue target for Q4,The number of features shipped per sprint,B
+Product Manager,Which agile ceremony is used to review team process and improve collaboration?,Sprint Planning,Stand-up,Retrospective,Backlog Grooming,C
+Product Manager,What is 'user story mapping'?,Writing user feedback in a spreadsheet,A technique to visualize the user journey and organize backlogs based on user activities,A method to test UI designs,A way to map server architecture,B
+Product Manager,What does 'churn rate' measure?,New user sign-ups per month,The percentage of customers who stop using a product in a given period,The speed of product delivery,The number of product bugs resolved,B
+Product Manager,Which discovery method helps identify unmet user needs through observation in their natural environment?,Focus Groups,A/B Testing,Ethnographic Research,Surveys,C
+Product Manager,In OKR methodology what does 'KR' stand for?,Key Requirements,Key Results,Knowledge Repository,Kickoff Roadmap,B
+Product Manager,What is the 'Jobs-to-be-Done' framework?,A sprint planning tool,A hiring process guide,A framework that focuses on what tasks users are trying to accomplish with a product,A product pricing model,C
+Product Manager,What is a 'product-market fit'?,A legal agreement with distributors,The degree to which a product satisfies strong market demand,A marketing campaign strategy,A competitive analysis tool,B
+Product Manager,What does 'DAU/MAU ratio' indicate?,Daily Active Users divided by Monthly Active Users indicating user engagement stickiness,Monthly revenue divided by annual users,Days to acquire a user divided by months active,Developer activity metrics,A
+Product Manager,What is 'scope creep'?,Adding automated tests to a project,The uncontrolled expansion of project scope without proper evaluation,A type of security vulnerability,A database optimization technique,B
+Product Manager,Which technique is used to validate a hypothesis quickly with minimal resources?,Waterfall Development,Usability Testing,Smoke Testing,Concierge MVP,D
+Product Manager,What does 'LTV' stand for in product analytics?,Launch Time Value,Lifetime Value: the predicted revenue a customer will generate during their relationship with a product,Linear Trend Visualization,Long Term Vision,B

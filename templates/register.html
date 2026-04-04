@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}Register — Buddy AI Interview{% endblock %}
+{% block meta_description %}Register for the AI-powered interview. Provide your profile and upload your resume to get started.{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="form-card" id="register-card">
+    <div class="form-card-header">
+      <div class="form-icon">📝</div>
+      <h1 class="form-title">Candidate Registration</h1>
+      <p class="form-subtitle">Fill in your details to begin the AI interview experience</p>
+    </div>
+
+    <form action="{{ url_for('candidate.register') }}" method="POST" enctype="multipart/form-data" id="register-form" novalidate>
+
+      <!-- Name -->
+      <div class="form-group">
+        <label class="form-label" for="name">Full Name <span class="required">*</span></label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          class="form-control"
+          placeholder="e.g. Arjun Sharma"
+          value="{{ form_data.get('name', '') }}"
+          required
+        />
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label class="form-label" for="email">Email Address <span class="required">*</span></label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          placeholder="e.g. arjun@example.com"
+          value="{{ form_data.get('email', '') }}"
+          required
+        />
+      </div>
+
+      <!-- College -->
+      <div class="form-group">
+        <label class="form-label" for="college">College / Institution</label>
+        <input
+          type="text"
+          id="college"
+          name="college"
+          class="form-control"
+          placeholder="e.g. IIT Delhi"
+          value="{{ form_data.get('college', '') }}"
+        />
+      </div>
+
+      <!-- Role -->
+      <div class="form-group">
+        <label class="form-label" for="role">Interview Role <span class="required">*</span></label>
+        <div class="select-wrapper">
+          <select id="role" name="role" class="form-control form-select" required>
+            <option value="">— Select your role —</option>
+            {% for role in roles %}
+              <option value="{{ role }}" {% if form_data.get('role') == role %}selected{% endif %}>
+                {{ role }}
+              </option>
+            {% endfor %}
+          </select>
+          <span class="select-arrow">▾</span>
+        </div>
+      </div>
+
+      <!-- Resume Upload -->
+      <div class="form-group">
+        <label class="form-label" for="resume">Resume (PDF only) <span class="required">*</span></label>
+        <div class="upload-zone" id="upload-zone">
+          <input type="file" id="resume" name="resume" accept=".pdf" class="upload-input" required />
+          <div class="upload-content" id="upload-content">
+            <div class="upload-icon">📄</div>
+            <p class="upload-primary">Click or drag your PDF resume here</p>
+            <p class="upload-secondary">Maximum file size: 16 MB</p>
+          </div>
+        </div>
+        <p class="upload-filename" id="upload-filename"></p>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="register-submit-btn">
+        <span id="btn-text">Complete Registration</span>
+        <span id="btn-spinner" class="spinner hidden" aria-hidden="true"></span>
+      </button>
+
+    </form>
+
+    <!-- Progress indicator -->
+    <div class="process-steps">
+      <div class="step step--active">
+        <div class="step-circle">1</div>
+        <span>Register</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-circle">2</div>
+        <span>MCQ Test</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-circle">3</div>
+        <span>Verbal Interview</span>
+      </div>
+      <div class="step-line"></div>
+      <div class="step">
+        <div class="step-circle">4</div>
+        <span>Results</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // File drag-and-drop
+  const uploadZone  = document.getElementById('upload-zone');
+  const fileInput   = document.getElementById('resume');
+  const uploadLabel = document.getElementById('upload-filename');
+  const uploadContent = document.getElementById('upload-content');
+
+  uploadZone.addEventListener('click', () => fileInput.click());
+
+  uploadZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadZone.classList.add('dragover');
+  });
+
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      fileInput.files = files;
+      fileInput.dispatchEvent(new Event('change'));
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length > 0) {
+      const name = fileInput.files[0].name;
+      uploadContent.innerHTML = `<div class="upload-icon">✅</div><p class="upload-primary">${name}</p><p class="upload-secondary">Ready to upload</p>`;
+      uploadLabel.textContent = '';
+      uploadZone.classList.add('file-selected');
+    }
+  });
+
+  // Show spinner on submit
+  document.getElementById('register-form').addEventListener('submit', () => {
+    document.getElementById('btn-text').textContent = 'Registering…';
+    document.getElementById('btn-spinner').classList.remove('hidden');
+  });
+</script>
+{% endblock %}

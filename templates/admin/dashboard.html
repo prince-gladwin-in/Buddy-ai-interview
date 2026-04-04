@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — Buddy AI{% endblock %}
+{% block meta_description %}Admin dashboard showing all candidates, scores, and interview performance metrics.{% endblock %}
+
+{% block content %}
+<div class="admin-wrapper">
+
+  <!-- ── Admin Header ── -->
+  <div class="admin-header">
+    <div>
+      <h1 class="admin-title">🛡️ Admin Dashboard</h1>
+      <p class="admin-subtitle">Manage candidates and performance analytics</p>
+    </div>
+    <a href="{{ url_for('admin.logout') }}" class="btn btn-ghost" id="admin-logout-btn">Sign Out →</a>
+  </div>
+
+  <!-- ── Stats Row ── -->
+  <div class="admin-stats-grid">
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">👤</div>
+      <div class="admin-stat-value">{{ stats.total_candidates }}</div>
+      <div class="admin-stat-label">Total Candidates</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">✅</div>
+      <div class="admin-stat-value">{{ stats.passed_mcq }}</div>
+      <div class="admin-stat-label">Passed MCQ</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">🎙️</div>
+      <div class="admin-stat-value">{{ stats.verbal_answers }}</div>
+      <div class="admin-stat-label">Verbal Answers</div>
+    </div>
+    <div class="admin-stat-card">
+      <div class="admin-stat-icon">⚠️</div>
+      <div class="admin-stat-value">{{ stats.face_alerts }}</div>
+      <div class="admin-stat-label">Face Alerts</div>
+    </div>
+  </div>
+
+  <!-- ── Search / Filter ── -->
+  <form class="admin-search-bar" method="GET" action="{{ url_for('admin.dashboard') }}" id="admin-search-form">
+    <input
+      type="text"
+      name="q"
+      class="form-control"
+      placeholder="Search by ID, name, or email…"
+      value="{{ query }}"
+      id="admin-search-input"
+    />
+    <select name="role" class="form-control form-select" id="admin-role-filter">
+      <option value="">All Roles</option>
+      {% for role in roles %}
+        <option value="{{ role }}" {% if selected_role == role %}selected{% endif %}>{{ role }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary" id="admin-search-btn">Search</button>
+    {% if query or selected_role %}
+      <a href="{{ url_for('admin.dashboard') }}" class="btn btn-ghost">Clear</a>
+    {% endif %}
+  </form>
+
+  <!-- ── Candidates Table ── -->
+  {% if candidates.items %}
+  <div class="table-card">
+    <table class="admin-table" id="candidates-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>MCQ Score</th>
+          <th>Verbal Avg</th>
+          <th>Alerts</th>
+          <th>Registered</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for c in candidates.items %}
+        <tr class="table-row" id="candidate-row-{{ c.id }}">
+          <td><span class="id-badge">#{{ c.id }}</span></td>
+          <td class="td-name">{{ c.name }}</td>
+          <td class="td-email">{{ c.email }}</td>
+          <td><span class="role-pill">{{ c.role or '—' }}</span></td>
+          <td>
+            {% set mcq = c.mcq_results[0] if c.mcq_results else none %}
+            {% if mcq %}
+              <span class="score-pill {% if mcq.passed %}score-pill--pass{% else %}score-pill--fail{% endif %}">
+                {{ mcq.score }}/{{ mcq.total }}
+              </span>
+            {% else %}
+              <span class="score-pill score-pill--na">—</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if c.verbal_results %}
+              {% set scores = c.verbal_results | map(attribute='similarity_score') | select | list %}
+              {% if scores %}
+                {% set avg = (scores | sum / scores | length) %}
+                <span class="score-pill {% if avg >= 0.6 %}score-pill--pass{% elif avg >= 0.4 %}score-pill--warn{% else %}score-pill--fail{% endif %}">
+                  {{ "%.0f"|format(avg * 100) }}%
+                </span>
+              {% else %}
+                <span class="score-pill score-pill--na">—</span>
+              {% endif %}
+            {% else %}
+              <span class="score-pill score-pill--na">—</span>
+            {% endif %}
+          </td>
+          <td>
+            <span class="alert-count {% if c.face_alert_count > 3 %}alert-count--high{% elif c.face_alert_count > 0 %}alert-count--med{% endif %}">
+              {{ c.face_alert_count }}
+            </span>
+          </td>
+          <td class="td-date">{{ c.registered_at.strftime('%d %b %y') }}</td>
+          <td class="td-actions">
+            <a href="{{ url_for('admin.candidate_detail', candidate_id=c.id) }}"
+               class="action-btn action-btn--view"
+               id="view-candidate-{{ c.id }}"
+               title="View Details">👁</a>
+            <a href="{{ url_for('admin.generate_report', candidate_id=c.id) }}"
+               class="action-btn action-btn--report"
+               id="report-candidate-{{ c.id }}"
+               title="Download Admin Report">📥</a>
+            <a href="{{ url_for('admin.candidate_report', candidate_id=c.id) }}"
+               class="action-btn action-btn--candidate"
+               id="candidate-report-{{ c.id }}"
+               title="Download Candidate Report">📄</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  {% if candidates.pages > 1 %}
+  <div class="pagination">
+    {% if candidates.has_prev %}
+      <a href="{{ url_for('admin.dashboard', q=query, role=selected_role, page=candidates.prev_num) }}" class="page-btn">← Prev</a>
+    {% endif %}
+    {% for num in candidates.iter_pages(left_edge=2, right_edge=2, left_current=2, right_current=2) %}
+      {% if num %}
+        <a href="{{ url_for('admin.dashboard', q=query, role=selected_role, page=num) }}"
+           class="page-btn {% if num == candidates.page %}page-btn--active{% endif %}">{{ num }}</a>
+      {% else %}
+        <span class="page-ellipsis">…</span>
+      {% endif %}
+    {% endfor %}
+    {% if candidates.has_next %}
+      <a href="{{ url_for('admin.dashboard', q=query, role=selected_role, page=candidates.next_num) }}" class="page-btn">Next →</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <h3>No candidates found</h3>
+    <p>{% if query %}No results for "{{ query }}"{% else %}No candidates registered yet.{% endif %}</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

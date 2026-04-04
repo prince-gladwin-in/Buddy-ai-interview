@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Admin Login — Buddy AI{% endblock %}
+{% block meta_description %}Secure admin login for the Buddy AI Interview System dashboard.{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="form-card form-card--narrow" id="admin-login-card">
+    <div class="form-card-header">
+      <div class="form-icon">🔐</div>
+      <h1 class="form-title">Admin Portal</h1>
+      <p class="form-subtitle">Sign in to access the dashboard and reports</p>
+    </div>
+
+    <form action="{{ url_for('admin.login') }}" method="POST" id="admin-login-form">
+
+      <div class="form-group">
+        <label class="form-label" for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="form-control"
+          placeholder="admin"
+          autocomplete="username"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="••••••••"
+            autocomplete="current-password"
+            required
+          />
+          <button type="button" class="toggle-pw" id="toggle-pw" onclick="togglePassword()" aria-label="Toggle password visibility">👁️</button>
+        </div>
+      </div>
+
+      <div class="admin-hint">
+        Default credentials: <code>admin</code> / <code>admin123</code>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-full btn-lg" id="admin-login-btn">
+        Sign In →
+      </button>
+
+    </form>
+
+    <div class="back-link">
+      <a href="{{ url_for('candidate.index') }}">← Back to home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function togglePassword() {
+    const pw = document.getElementById('password');
+    pw.type = pw.type === 'password' ? 'text' : 'password';
+  }
+</script>
+{% endblock %}

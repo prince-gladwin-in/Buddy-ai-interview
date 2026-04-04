@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}Buddy AI — AI-Powered Interview Platform{% endblock %}
+{% block meta_description %}Buddy AI helps you ace your technical interviews with AI-driven MCQs, semantic verbal scoring, and real-time face proctoring.{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero Section ──────────────────────────────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero-bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      AI-Powered Evaluation Platform
+    </div>
+    <h1 class="hero-title">
+      Interview smarter with
+      <span class="gradient-text">Buddy AI</span>
+    </h1>
+    <p class="hero-subtitle">
+      A complete AI-driven interview system — technical MCQs, semantic verbal scoring,
+      real-time face proctoring, and automated performance reports. All in one place.
+    </p>
+    <div class="hero-actions">
+      <a href="{{ url_for('candidate.register') }}" class="btn btn-primary btn-lg" id="start-interview-btn">
+        <span>Start Interview</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="{{ url_for('admin.login') }}" class="btn btn-ghost btn-lg">
+        Admin Portal
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-value">3</span>
+        <span class="stat-label">Job Roles</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value">AI</span>
+        <span class="stat-label">Semantic Scoring</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value">Real-Time</span>
+        <span class="stat-label">Face Proctoring</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Features Grid ─────────────────────────────────────────────────────────── -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div class="section-header">
+      <h2>Everything you need for a fair, smart interview</h2>
+      <p>From registration to detailed analytics — Buddy AI handles the entire process</p>
+    </div>
+    <div class="features-grid">
+
+      <div class="feature-card" id="feature-registration">
+        <div class="feature-icon feature-icon--blue">📝</div>
+        <h3>Candidate Registration</h3>
+        <p>Secure profile creation with PDF resume upload. Supports Software Engineer, Data Scientist, and Product Manager roles.</p>
+        <div class="feature-tag">Secure Upload</div>
+      </div>
+
+      <div class="feature-card" id="feature-mcq">
+        <div class="feature-icon feature-icon--purple">🧠</div>
+        <h3>Technical MCQ Round</h3>
+        <p>10 role-specific questions drawn randomly from a curated bank. A progression gate of 6/10 ensures only qualified candidates advance.</p>
+        <div class="feature-tag">Smart Gating</div>
+      </div>
+
+      <div class="feature-card" id="feature-verbal">
+        <div class="feature-icon feature-icon--cyan">🎙️</div>
+        <h3>AI Verbal Interview</h3>
+        <p>Voice-to-text capture with SentenceTransformer semantic scoring. Buddy's warm, empathetic persona supports candidates throughout.</p>
+        <div class="feature-tag">Cosine Similarity</div>
+      </div>
+
+      <div class="feature-card" id="feature-face">
+        <div class="feature-icon feature-icon--orange">👁️</div>
+        <h3>Face Proctoring</h3>
+        <p>OpenCV Haar Cascade monitors the webcam every 5 seconds. Real-time alerts if no face or multiple people are detected.</p>
+        <div class="feature-tag">OpenCV</div>
+      </div>
+
+      <div class="feature-card" id="feature-admin">
+        <div class="feature-icon feature-icon--green">📊</div>
+        <h3>Admin Dashboard</h3>
+        <p>Secure portal to search candidates, view detailed scores, and generate professional PDF performance reports instantly.</p>
+        <div class="feature-tag">FPDF Reports</div>
+      </div>
+
+      <div class="feature-card" id="feature-buddy">
+        <div class="feature-icon feature-icon--pink">💜</div>
+        <h3>Buddy Persona</h3>
+        <p>A person-centered, warm AI guide that provides emotional reflections between questions — reducing anxiety and improving performance.</p>
+        <div class="feature-tag">Empathetic AI</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ───────────────────────────────────────────────────────────────────── -->
+<section class="cta-section" id="cta">
+  <div class="cta-card">
+    <div class="cta-orb"></div>
+    <h2>Ready to begin your interview?</h2>
+    <p>Registration takes under 2 minutes. Your AI interview experience starts immediately after.</p>
+    <a href="{{ url_for('candidate.register') }}" class="btn btn-white btn-lg" id="cta-register-btn">
+      Register Now →
+    </a>
+  </div>
+</section>
+
+{% endblock %}

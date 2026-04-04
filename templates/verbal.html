@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Verbal Interview — {{ candidate.role }} | Buddy AI{% endblock %}
+{% block meta_description %}AI verbal interview with voice-to-text and semantic scoring for {{ candidate.role }}.{% endblock %}
+
+{% block content %}
+<div class="verbal-wrapper">
+
+  <!-- ── Two-Column Layout ── -->
+  <div class="verbal-layout">
+
+    <!-- ── Left: Interview Panel ── -->
+    <div class="verbal-main">
+
+      <!-- Buddy Header -->
+      <div class="buddy-header">
+        <div class="buddy-avatar" id="buddy-avatar">🤖</div>
+        <div class="buddy-info">
+          <h1 class="buddy-name">Buddy</h1>
+          <p class="buddy-tagline">Your AI Interview Guide</p>
+        </div>
+        <div class="interview-progress">
+          <span id="q-counter">Question 1 / {{ questions|length }}</span>
+          <div class="verbal-progress-bar">
+            <div class="verbal-progress-fill" id="verbal-progress-fill" style="width: {{ (1 / questions|length * 100)|int }}%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buddy Speech Bubble -->
+      <div class="buddy-bubble" id="buddy-bubble">
+        <div class="bubble-tail"></div>
+        <p id="buddy-message">
+          Hey <strong>{{ candidate.name }}</strong>! 👋 Great job passing the MCQ round —
+          you're doing amazing! I'm Buddy, and I'll be guiding you through
+          this verbal interview. We'll go through {{ questions|length }} questions.
+          Take a deep breath, be yourself, and we'll do this together. Ready? Let's go! 🚀
+        </p>
+      </div>
+
+      <!-- Question Card -->
+      <div class="question-display" id="question-display" style="display:none;">
+        <div class="verbal-q-number" id="verbal-q-number">Q1</div>
+        <div class="verbal-question-text" id="verbal-question-text"></div>
+      </div>
+
+      <!-- Answer Area -->
+      <div class="answer-section" id="answer-section" style="display:none;">
+
+        <!-- Microphone / Speech -->
+        <div class="mic-controls">
+          <button class="mic-btn" id="mic-btn" onclick="toggleRecording()" title="Click to record your answer">
+            <span id="mic-icon">🎙️</span>
+          </button>
+          <div class="mic-status" id="mic-status">Click the mic to start speaking</div>
+        </div>
+
+        <!-- Live transcript -->
+        <div class="transcript-box">
+          <label class="form-label">Your Answer <span class="mic-hint">(voice or type below)</span></label>
+          <textarea
+            id="answer-textarea"
+            class="transcript-textarea"
+            placeholder="Your transcribed answer will appear here as you speak, or type directly…"
+            rows="5"
+          ></textarea>
+        </div>
+
+        <!-- Submit Answer -->
+        <button class="btn btn-primary btn-full" id="submit-answer-btn" onclick="submitAnswer()">
+          <span id="submit-answer-text">Submit Answer</span>
+          <span id="submit-answer-spinner" class="spinner hidden"></span>
+        </button>
+      </div>
+
+      <!-- Buddy Reflection (shown after each answer) -->
+      <div class="buddy-reflection hidden" id="buddy-reflection">
+        <div class="reflection-score" id="reflection-score"></div>
+        <div class="reflection-message" id="reflection-message"></div>
+        <button class="btn btn-primary" id="next-question-btn" onclick="nextQuestion()">
+          Next Question →
+        </button>
+        <button class="btn btn-primary hidden" id="finish-btn" onclick="finishInterview()">
+          See My Results →
+        </button>
+      </div>
+
+      <!-- Start Button (initial state) -->
+      <div class="start-area" id="start-area">
+        <button class="btn btn-primary btn-lg" id="start-interview-verbal-btn" onclick="startInterview()">
+          Begin Interview 🚀
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ── Right: Webcam + Proctoring ── -->
+    <div class="verbal-sidebar">
+      <div class="webcam-card">
+        <div class="webcam-header">
+          <span class="webcam-dot webcam-dot--live"></span>
+          <span>Live Proctoring</span>
+        </div>
+        <div class="webcam-container">
+          <video id="webcam-video" autoplay muted playsinline></video>
+          <canvas id="webcam-canvas" style="display:none;"></canvas>
+          <div class="webcam-overlay" id="webcam-overlay">
+            <span class="webcam-overlay-icon">📷</span>
+            <p>Camera starting…</p>
+          </div>
+        </div>
+        <div class="face-status" id="face-status">
+          <span class="face-status-icon" id="face-icon">⏳</span>
+          <span id="face-status-text">Initialising camera…</span>
+        </div>
+        <div class="alert-log" id="alert-log">
+          <p class="alert-log-title">Integrity Log</p>
+          <div id="alert-entries"></div>
+        </div>
+      </div>
+
+      <!-- Tips Card -->
+      <div class="tips-card">
+        <h3>💡 Interview Tips</h3>
+        <ul class="tips-list">
+          <li>Speak clearly and at a moderate pace</li>
+          <li>Structure your answer: situation → action → result</li>
+          <li>It's okay to pause and think before answering</li>
+          <li>Keep your face clearly visible to the camera</li>
+          <li>There are no trick questions — be authentic!</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Face monitor must load before verbal.js -->
+<script src="{{ url_for('static', filename='js/face_monitor.js') }}"></script>
+<script src="{{ url_for('static', filename='js/verbal.js') }}"></script>
+<script>
+  const CANDIDATE_ID = {{ candidate.id }};
+  const QUESTIONS_DATA = {{ questions_json | safe }};
+
+  // Full questions array with ideal answers (for scoring)
+  const QUESTIONS_FULL = {{ questions | tojson | safe }};
+
+  initVerbalInterview(CANDIDATE_ID, QUESTIONS_DATA, QUESTIONS_FULL);
+  initFaceMonitor(CANDIDATE_ID);
+</script>
+{% endblock %}

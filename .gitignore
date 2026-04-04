@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.env
+venv/
+env/
+.venv/
+
+# Flask / SQLite
+instance/
+*.db
+
+# Uploads & generated reports (user data — not committed)
+uploads/
+reports/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Sentence Transformers model cache
+.cache/

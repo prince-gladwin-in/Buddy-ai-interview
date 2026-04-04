@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Technical MCQ — {{ candidate.role }} | Buddy AI{% endblock %}
+{% block meta_description %}Technical multiple-choice quiz for the {{ candidate.role }} role. Score 6 or higher to proceed to verbal interview.{% endblock %}
+
+{% block content %}
+<div class="mcq-wrapper">
+
+  <!-- ── Header ── -->
+  <div class="mcq-header">
+    <div class="mcq-header-left">
+      <h1 class="mcq-title">Technical Assessment</h1>
+      <p class="mcq-subtitle">
+        👋 Hi <strong>{{ candidate.name }}</strong>! This is the MCQ round for
+        <span class="role-badge">{{ candidate.role }}</span>
+      </p>
+    </div>
+    <div class="mcq-timer-box">
+      <div class="timer-label">Time Remaining</div>
+      <div class="timer-display" id="timer-display">20:00</div>
+    </div>
+  </div>
+
+  <!-- ── Progress ── -->
+  <div class="mcq-progress-wrap">
+    <div class="mcq-progress-bar">
+      <div class="mcq-progress-fill" id="progress-fill" style="width: 0%"></div>
+    </div>
+    <span class="progress-label">
+      Question <span id="current-q">1</span> / {{ questions|length }}
+    </span>
+  </div>
+
+  <!-- ── Info Bar ── -->
+  <div class="mcq-info-bar">
+    <span>📋 {{ questions|length }} Questions</span>
+    <span>⏱️ 20 minutes</span>
+    <span>🎯 Pass mark: 6/10</span>
+    <span>📝 All questions compulsory</span>
+  </div>
+
+  <!-- ── Questions Form ── -->
+  <form action="{{ url_for('candidate.mcq', candidate_id=candidate.id) }}" method="POST" id="mcq-form">
+    {% for q in questions %}
+    {% set i = loop.index0 %}
+    <div class="question-card {% if i > 0 %}hidden{% endif %}" id="q-card-{{ i }}" data-index="{{ i }}">
+      <div class="question-number">Question {{ i+1 }} of {{ questions|length }}</div>
+      <div class="question-text">{{ q.question }}</div>
+      <div class="options-grid" id="options-{{ i }}">
+        {% for key, value in q.options.items() %}
+        <label class="option-label" id="option-{{ i }}-{{ key }}" for="opt-{{ i }}-{{ key }}">
+          <input
+            type="radio"
+            id="opt-{{ i }}-{{ key }}"
+            name="q{{ i }}"
+            value="{{ key }}"
+            class="option-radio"
+          />
+          <span class="option-key">{{ key }}</span>
+          <span class="option-text">{{ value }}</span>
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- ── Navigation Buttons ── -->
+    <div class="mcq-nav">
+      <button type="button" class="btn btn-ghost" id="prev-btn" onclick="navigateQuestion(-1)" disabled>
+        ← Previous
+      </button>
+      <div class="question-dots" id="question-dots">
+        {% for i in range(questions|length) %}
+        <button type="button"
+          class="dot {% if i == 0 %}dot--active{% endif %}"
+          id="dot-{{ i }}"
+          onclick="goToQuestion({{ i }})"
+          aria-label="Question {{ i+1 }}">
+        </button>
+        {% endfor %}
+      </div>
+      <button type="button" class="btn btn-primary" id="next-btn" onclick="navigateQuestion(1)">
+        Next →
+      </button>
+    </div>
+
+    <!-- ── Submit ── -->
+    <div class="mcq-submit-area hidden" id="submit-area">
+      <div class="submit-summary" id="submit-summary"></div>
+      <button type="submit" class="btn btn-primary btn-lg" id="submit-mcq-btn">
+        Submit MCQ Test →
+      </button>
+    </div>
+
+  </form>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/mcq.js') }}"></script>
+<script>
+  const TOTAL_QUESTIONS = {{ questions|length }};
+  initMCQ(TOTAL_QUESTIONS);
+</script>
+{% endblock %}

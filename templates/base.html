@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Buddy AI Interview System{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}AI-powered interview evaluation platform with semantic scoring and real-time proctoring.{% endblock %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- ── Navigation ────────────────────────────────────────────────────────── -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="{{ url_for('candidate.index') }}" class="nav-brand">
+        <span class="brand-icon">🤖</span>
+        <span class="brand-text">Buddy<span class="brand-accent">AI</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="{{ url_for('candidate.index') }}" class="nav-link">Home</a>
+        <a href="{{ url_for('candidate.register') }}" class="nav-link">Register</a>
+        <a href="{{ url_for('admin.login') }}" class="nav-link nav-link--admin">Admin</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Flash Messages ────────────────────────────────────────────────────── -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-container" id="flash-container">
+        {% for category, message in messages %}
+          <div class="flash flash--{{ category }}" role="alert">
+            <span class="flash-icon">
+              {% if category == 'success' %}✅{% elif category == 'error' %}❌{% elif category == 'warning' %}⚠️{% else %}ℹ️{% endif %}
+            </span>
+            <span class="flash-message">{{ message }}</span>
+            <button class="flash-close" onclick="this.parentElement.remove()" aria-label="Close">×</button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <!-- ── Main Content ──────────────────────────────────────────────────────── -->
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ── Footer ────────────────────────────────────────────────────────────── -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span>🤖 Buddy AI Interview System</span>
+      <span class="footer-sep">·</span>
+      <span>Built with Flask, SentenceTransformers & OpenCV</span>
+    </div>
+  </footer>
+
+  <!-- Auto-dismiss flash messages -->
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll('.flash').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(-10px)';
+        setTimeout(() => el.remove(), 300);
+      });
+    }, 5000);
+  </script>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

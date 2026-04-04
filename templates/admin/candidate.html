@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}{{ candidate.name }} — Admin Detail | Buddy AI{% endblock %}
+
+{% block content %}
+<div class="admin-wrapper">
+
+  <div class="admin-breadcrumb">
+    <a href="{{ url_for('admin.dashboard') }}">← Dashboard</a>
+    <span>/</span>
+    <span>{{ candidate.name }}</span>
+  </div>
+
+  <!-- ── Candidate Header ── -->
+  <div class="candidate-detail-header">
+    <div class="candidate-avatar-lg">{{ candidate.name[0] | upper }}</div>
+    <div class="candidate-info-detail">
+      <h1>{{ candidate.name }}</h1>
+      <div class="candidate-meta-detail">
+        <span>📧 {{ candidate.email }}</span>
+        <span>🎓 {{ candidate.college or 'N/A' }}</span>
+        <span>💼 {{ candidate.role }}</span>
+        <span>📅 Registered {{ candidate.registered_at.strftime('%d %b %Y at %H:%M') }}</span>
+      </div>
+    </div>
+    <div class="candidate-actions-header">
+      <a href="{{ url_for('admin.generate_report', candidate_id=candidate.id) }}"
+         class="btn btn-primary"
+         id="download-admin-report-btn">
+        📥 Admin Report
+      </a>
+      <a href="{{ url_for('admin.candidate_report', candidate_id=candidate.id) }}"
+         class="btn btn-ghost"
+         id="download-candidate-report-btn">
+        📄 Candidate Report
+      </a>
+    </div>
+  </div>
+
+  <!-- ── Score Overview ── -->
+  <div class="score-cards-grid">
+    <div class="score-card {% if mcq_result and mcq_result.passed %}score-card--success{% elif mcq_result %}score-card--danger{% endif %}">
+      <div class="score-card-icon">🧠</div>
+      <div class="score-card-title">MCQ Score</div>
+      {% if mcq_result %}
+        <div class="score-card-value">{{ mcq_result.score }}/{{ mcq_result.total }}</div>
+        <div class="score-card-label">{{ '✅ PASSED' if mcq_result.passed else '❌ FAILED' }}</div>
+      {% else %}
+        <div class="score-card-value">—</div>
+        <div class="score-card-label">Not attempted</div>
+      {% endif %}
+    </div>
+
+    <div class="score-card {% if verbal_avg is not none and verbal_avg >= 0.6 %}score-card--success{% elif verbal_avg is not none %}score-card--warning{% endif %}">
+      <div class="score-card-icon">🎙️</div>
+      <div class="score-card-title">Verbal Avg</div>
+      {% if verbal_avg is not none %}
+        <div class="score-card-value">{{ "%.1f"|format(verbal_avg * 100) }}%</div>
+        <div class="score-card-label">{{ verbal_results|length }} questions answered</div>
+      {% else %}
+        <div class="score-card-value">—</div>
+        <div class="score-card-label">Not attempted</div>
+      {% endif %}
+    </div>
+
+    <div class="score-card {% if face_alerts|length == 0 %}score-card--success{% elif face_alerts|length <= 3 %}score-card--warning{% else %}score-card--danger{% endif %}">
+      <div class="score-card-icon">👁️</div>
+      <div class="score-card-title">Face Alerts</div>
+      <div class="score-card-value">{{ face_alerts|length }}</div>
+      <div class="score-card-label">{{ '✅ Clean' if face_alerts|length == 0 else '⚠️ Violations found' }}</div>
+    </div>
+  </div>
+
+  <!-- ── MCQ Details ── -->
+  {% if mcq_result %}
+  <div class="detail-section">
+    <h2 class="section-title-sm">🧠 MCQ Details</h2>
+    <div class="detail-grid">
+      <div class="detail-item"><span class="detail-label">Role</span><span>{{ mcq_result.role }}</span></div>
+      <div class="detail-item"><span class="detail-label">Score</span><span>{{ mcq_result.score }}/{{ mcq_result.total }}</span></div>
+      <div class="detail-item"><span class="detail-label">Accuracy</span><span>{{ "%.0f"|format(mcq_result.score / mcq_result.total * 100) }}%</span></div>
+      <div class="detail-item"><span class="detail-label">Status</span><span class="{% if mcq_result.passed %}text-success{% else %}text-danger{% endif %}">{{ 'Passed' if mcq_result.passed else 'Failed' }}</span></div>
+      <div class="detail-item"><span class="detail-label">Taken At</span><span>{{ mcq_result.taken_at.strftime('%d %b %Y %H:%M') }}</span></div>
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ── Verbal Details ── -->
+  {% if verbal_results %}
+  <div class="detail-section">
+    <h2 class="section-title-sm">🎙️ Verbal Interview Transcript</h2>
+    {% for vr in verbal_results %}
+    <div class="verbal-result-card">
+      <div class="vr-header">
+        <span class="vr-num">Q{{ vr.question_index + 1 }}</span>
+        <span class="vr-score {% if vr.similarity_score >= 0.6 %}score-good{% elif vr.similarity_score >= 0.4 %}score-fair{% else %}score-low{% endif %}">
+          {{ "%.0f"|format((vr.similarity_score or 0) * 100) }}% — 
+          {% if vr.similarity_score >= 0.8 %}Excellent{% elif vr.similarity_score >= 0.6 %}Good{% elif vr.similarity_score >= 0.4 %}Fair{% else %}Needs Work{% endif %}
+        </span>
+      </div>
+      <div class="vr-question">{{ vr.question }}</div>
+      <div class="vr-answer"><span class="vr-answer-label">Answer:</span> {{ vr.answer or '(No answer recorded)' }}</div>
+      <div class="vr-bar">
+        <div class="vr-bar-fill" style="width: {{ ((vr.similarity_score or 0) * 100)|int }}%"></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ── Face Alerts ── -->
+  <div class="detail-section">
+    <h2 class="section-title-sm">👁️ Proctoring Log</h2>
+    {% if face_alerts %}
+    <div class="alerts-list">
+      {% for fa in face_alerts %}
+      <div class="alert-item alert-item--{{ 'warning' if fa.alert_type == 'no_face' else 'danger' }}">
+        <span>{{ '👤' if fa.alert_type == 'no_face' else '🚫' }}</span>
+        <span>{{ fa.alert_type.replace('_', ' ').title() }}</span>
+        <span class="alert-time">{{ fa.timestamp.strftime('%d %b %Y %H:%M:%S') }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-success">✅ No integrity violations detected.</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

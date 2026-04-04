@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Your Results — {{ candidate.name }} | Buddy AI{% endblock %}
+{% block meta_description %}Complete AI interview results for {{ candidate.name }}: MCQ score, verbal AI evaluation, and integrity report.{% endblock %}
+
+{% block content %}
+<div class="results-wrapper">
+
+  <!-- ── Header ── -->
+  <div class="results-header">
+    <div class="results-avatar">
+      {% if mcq_result and mcq_result.passed and verbal_results %}🏆
+      {% elif mcq_result and mcq_result.passed %}✅
+      {% else %}📋{% endif %}
+    </div>
+    <h1>Interview Complete!</h1>
+    <p class="results-subtitle">Here's a full breakdown of your performance, <strong>{{ candidate.name }}</strong></p>
+    <div class="candidate-meta">
+      <span>🎓 {{ candidate.college or 'N/A' }}</span>
+      <span>·</span>
+      <span>💼 {{ candidate.role }}</span>
+      <span>·</span>
+      <span>📧 {{ candidate.email }}</span>
+    </div>
+  </div>
+
+  <!-- ── Score Cards ── -->
+  <div class="score-cards-grid">
+    <!-- MCQ Card -->
+    <div class="score-card {% if mcq_result and mcq_result.passed %}score-card--success{% elif mcq_result %}score-card--danger{% endif %}">
+      <div class="score-card-icon">🧠</div>
+      <div class="score-card-title">Technical MCQ</div>
+      {% if mcq_result %}
+        <div class="score-card-value">{{ mcq_result.score }}<span class="score-card-total">/{{ mcq_result.total }}</span></div>
+        <div class="score-card-bar">
+          <div class="score-bar-fill" style="width: {{ (mcq_result.score / mcq_result.total * 100)|int }}%; background: {% if mcq_result.passed %}#10b981{% else %}#ef4444{% endif %}"></div>
+        </div>
+        <div class="score-card-label {% if mcq_result.passed %}text-success{% else %}text-danger{% endif %}">
+          {% if mcq_result.passed %}✅ PASSED{% else %}❌ DID NOT PASS{% endif %}
+        </div>
+      {% else %}
+        <div class="score-card-value">—</div>
+        <div class="score-card-label">Not attempted</div>
+      {% endif %}
+    </div>
+
+    <!-- Verbal Card -->
+    <div class="score-card {% if verbal_avg is not none and verbal_avg >= 0.6 %}score-card--success{% elif verbal_avg is not none %}score-card--warning{% endif %}">
+      <div class="score-card-icon">🎙️</div>
+      <div class="score-card-title">Verbal AI Score</div>
+      {% if verbal_avg is not none %}
+        <div class="score-card-value">{{ "%.0f"|format(verbal_avg * 100) }}<span class="score-card-total">%</span></div>
+        <div class="score-card-bar">
+          <div class="score-bar-fill" style="width: {{ (verbal_avg * 100)|int }}%; background: {% if verbal_avg >= 0.6 %}#10b981{% elif verbal_avg >= 0.4 %}#f59e0b{% else %}#ef4444{% endif %}"></div>
+        </div>
+        <div class="score-card-label">
+          {% if verbal_avg >= 0.8 %}🌟 Excellent
+          {% elif verbal_avg >= 0.6 %}👍 Good
+          {% elif verbal_avg >= 0.4 %}📈 Fair
+          {% else %}📌 Needs Work{% endif %}
+        </div>
+      {% else %}
+        <div class="score-card-value">—</div>
+        <div class="score-card-label">Not attempted</div>
+      {% endif %}
+    </div>
+
+    <!-- Integrity Card -->
+    <div class="score-card {% if face_alerts|length == 0 %}score-card--success{% elif face_alerts|length <= 3 %}score-card--warning{% else %}score-card--danger{% endif %}">
+      <div class="score-card-icon">👁️</div>
+      <div class="score-card-title">Integrity Score</div>
+      <div class="score-card-value">{{ face_alerts|length }}</div>
+      <div class="score-card-label">
+        {% if face_alerts|length == 0 %}✅ No Violations
+        {% elif face_alerts|length <= 3 %}⚠️ Minor Alerts
+        {% else %}❌ Multiple Violations{% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Verbal Q&A Breakdown ── -->
+  {% if verbal_results %}
+  <div class="results-section">
+    <h2 class="section-title-sm">📝 Verbal Interview Breakdown</h2>
+    <div class="verbal-breakdown">
+      {% for vr in verbal_results %}
+      <div class="verbal-result-card">
+        <div class="vr-header">
+          <span class="vr-num">Q{{ vr.question_index + 1 }}</span>
+          <span class="vr-score {% if vr.similarity_score >= 0.6 %}score-good{% elif vr.similarity_score >= 0.4 %}score-fair{% else %}score-low{% endif %}">
+            {{ "%.0f"|format((vr.similarity_score or 0) * 100) }}%
+          </span>
+        </div>
+        <div class="vr-question">{{ vr.question }}</div>
+        <div class="vr-answer">
+          <span class="vr-answer-label">Your Answer:</span>
+          {{ vr.answer or '(No answer recorded)' }}
+        </div>
+        <div class="vr-bar">
+          <div class="vr-bar-fill" style="width: {{ ((vr.similarity_score or 0) * 100)|int }}%"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ── Face Alert Log ── -->
+  {% if face_alerts %}
+  <div class="results-section">
+    <h2 class="section-title-sm">👁️ Proctoring Alerts</h2>
+    <div class="alerts-list">
+      {% for alert in face_alerts %}
+      <div class="alert-item alert-item--{{ 'warning' if alert.alert_type == 'no_face' else 'danger' }}">
+        <span>{{ '🚫' if alert.alert_type == 'multiple_faces' else '👤' }}</span>
+        <span>{{ alert.alert_type.replace('_', ' ').title() }}</span>
+        <span class="alert-time">{{ alert.timestamp.strftime('%H:%M:%S') }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ── Overall Recommendation ── -->
+  <div class="recommendation-card
+    {% set mcq_score = mcq_result.score if mcq_result else 0 %}
+    {% set v_avg = verbal_avg or 0 %}
+    {% if mcq_score >= 8 and v_avg >= 0.70 %}rec-strong
+    {% elif mcq_score >= 6 and v_avg >= 0.55 %}rec-hire
+    {% elif mcq_score >= 6 and v_avg >= 0.40 %}rec-consider
+    {% else %}rec-pass{% endif %}">
+    <h3>
+      {% set mcq_score = mcq_result.score if mcq_result else 0 %}
+      {% set v_avg = verbal_avg or 0 %}
+      {% if mcq_score >= 8 and v_avg >= 0.70 %}🌟 Strong Hire Recommended
+      {% elif mcq_score >= 6 and v_avg >= 0.55 %}✅ Hire Recommended
+      {% elif mcq_score >= 6 and v_avg >= 0.40 %}🟡 Consider — Needs Development
+      {% else %}❌ Did Not Meet Benchmarks{% endif %}
+    </h3>
+    <p>Your complete report has been saved. Contact the recruiter for next steps.</p>
+  </div>
+
+  <!-- ── Actions ── -->
+  <div class="results-actions">
+    <a href="{{ url_for('candidate.index') }}" class="btn btn-ghost">← Home</a>
+  </div>
+
+</div>
+{% endblock %}
