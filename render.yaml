@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: buddy-ai-interview
+    env: python
+    plan: standard
+    runtime: python-3.11
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: FLASK_ENV
+        value: production
+    databases:
+      - name: interview_db
+        engine: postgresql
+        version: "15"
