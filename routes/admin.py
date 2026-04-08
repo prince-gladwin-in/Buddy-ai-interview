@@ -176,3 +176,24 @@ def candidate_report(candidate_id):
     generate_candidate_report(candidate, mcq_result, verbal_results, face_alerts, output_path)
 
     return send_file(output_path, as_attachment=True, download_name=filename)
+
+
+# ── Delete Candidate ───────────────────────────────────────────────────────────
+
+@admin_bp.route('/delete/<int:candidate_id>', methods=['POST'])
+@admin_required
+def delete_candidate(candidate_id):
+    """Delete a candidate and all associated records."""
+    candidate = Candidate.query.get_or_404(candidate_id)
+    candidate_name = candidate.name
+    
+    try:
+        # Delete all associated records (cascading delete handled by SQLAlchemy)
+        db.session.delete(candidate)
+        db.session.commit()
+        flash(f"✅ Candidate '{candidate_name}' has been deleted successfully.", 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash(f"❌ Error deleting candidate: {str(e)}", 'error')
+    
+    return redirect(url_for('admin.dashboard'))

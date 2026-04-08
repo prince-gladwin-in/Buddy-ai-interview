@@ -17,7 +17,7 @@
   <nav class="navbar" id="navbar">
     <div class="nav-container">
       <a href="{{ url_for('candidate.index') }}" class="nav-brand">
-        <span class="brand-icon">🤖</span>
+        <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="Buddy AI Logo" class="brand-icon">
         <span class="brand-text">Buddy<span class="brand-accent">AI</span></span>
       </a>
       <div class="nav-links">
@@ -53,7 +53,7 @@
   <!-- ── Footer ────────────────────────────────────────────────────────────── -->
   <footer class="footer">
     <div class="footer-inner">
-      <span>🤖 Buddy AI Interview System</span>
+      <span>Buddy AI Interview System</span>
       <span class="footer-sep">·</span>
       <span>Built with Flask, SentenceTransformers & OpenCV</span>
     </div>

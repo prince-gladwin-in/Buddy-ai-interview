@@ -39,4 +39,13 @@ class Config:
     )
 
     # ── Available Roles ───────────────────────────────────────────────────
-    ROLES = ['Software Engineer', 'Data Scientist', 'Product Manager']
+    ROLES = [
+        'Software Engineer',
+        'Data Scientist',
+        'Product Manager',
+        'Data Analyst',
+        'Product Analyst',
+        'Cyber Security',
+        'Information Technology',
+        'Prompt Engineering'
+    ]

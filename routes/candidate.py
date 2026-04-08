@@ -63,7 +63,7 @@ def load_verbal_questions(role: str) -> list:
 @candidate_bp.route('/')
 def index():
     """Home / landing page."""
-    return render_template('index.html')
+    return render_template('index.html', total_roles=len(current_app.config['ROLES']))
 
 
 # ────────────────────────────────────────────────────────────────────────────────
@@ -189,6 +189,89 @@ def mcq(candidate_id):
             return redirect(url_for('candidate.results', candidate_id=candidate_id))
 
     return render_template('mcq.html', candidate=candidate, questions=questions)
+
+
+def generate_mcq_review(score, total_questions, role):
+    """Generate AI-powered feedback based on MCQ performance."""
+    percentage = (score / total_questions) * 100
+    
+    # Categorize performance
+    if percentage >= 90:
+        level = "Outstanding"
+        feedback = f"Exceptional performance! You scored {score}/{total_questions} ({percentage:.0f}%). Your mastery of {role} concepts is exceptional. You're well-prepared for this role and demonstrated strong problem-solving abilities across all domains."
+        suggestions = [
+            "Continue maintaining your high standards and keep exploring advanced topics",
+            "Consider mentoring others or contributing to technical discussions",
+            "Focus on real-world problem-solving to deepen your expertise"
+        ]
+        growth = "minimal"
+    elif percentage >= 80:
+        level = "Excellent"
+        feedback = f"Great work! You scored {score}/{total_questions} ({percentage:.0f}%). You have a strong grasp of {role} fundamentals and demonstrated solid understanding across most topics. You're ready to proceed to the next round with confidence."
+        suggestions = [
+            "Review the 1-2 questions you missed to solidify your knowledge",
+            "Practice edge cases and advanced scenarios for these topics",
+            f"Stay updated with latest best practices in {role}"
+        ]
+        growth = "moderate"
+    elif percentage >= 70:
+        level = "Good"
+        feedback = f"Good effort! You scored {score}/{total_questions} ({percentage:.0f}%). You've shown solid understanding of key {role} concepts. There are some areas that need strengthening before proceeding to advanced topics."
+        suggestions = [
+            f"Review the {total_questions - score} questions you missed and understand the correct answers",
+            "Study the fundamental concepts more thoroughly",
+            "Practice similar questions to build confidence",
+            "Focus on areas where you had doubts"
+        ]
+        growth = "moderate"
+    elif percentage >= 60:
+        level = "Average"
+        feedback = f"Satisfactory performance! You scored {score}/{total_questions} ({percentage:.0f}%). You've met the minimum threshold to proceed, but there's significant room for growth in your {role} knowledge."
+        suggestions = [
+            f"Carefully review all {total_questions - score} incorrect answers",
+            f"Go back to basics and strengthen your foundation in {role}",
+            "Create a study plan targeting weak areas",
+            "Practice regularly with varied questions",
+            "Seek clarification on difficult concepts"
+        ]
+        growth = "significant"
+    else:
+        level = "Needs Improvement"
+        feedback = f"You scored {score}/{total_questions} ({percentage:.0f}%). Unfortunately, you haven't met the passing threshold. This indicates you need more preparation in {role} concepts before proceeding to the next round."
+        suggestions = [
+            f"Take time to thoroughly study the {role} fundamentals",
+            "Review all the questions and understand why each answer is correct",
+            "Create a structured learning plan with clear milestones",
+            "Consider finding mentorship or additional resources",
+            "Practice consistently before attempting the test again"
+        ]
+        growth = "critical"
+    
+    return {
+        "level": level,
+        "feedback": feedback,
+        "suggestions": suggestions,
+        "growth": growth,
+        "score": score,
+        "total": total_questions,
+        "percentage": percentage
+    }
+
+
+# ── MCQ Review
+@candidate_bp.route('/review/<int:candidate_id>')
+def review(candidate_id):
+    """Display AI-generated MCQ review and feedback."""
+    candidate = Candidate.query.get_or_404(candidate_id)
+    mcq_result = MCQResult.query.filter_by(candidate_id=candidate_id).first()
+    
+    if not mcq_result:
+        flash("No MCQ results found.", 'error')
+        return redirect(url_for('candidate.index'))
+    
+    review_data = generate_mcq_review(mcq_result.score, mcq_result.total, candidate.role)
+    
+    return render_template('review.html', candidate=candidate, mcq_result=mcq_result, review_data=review_data)
 
 
 # ────────────────────────────────────────────────────────────────────────────────

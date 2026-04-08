@@ -41,7 +41,7 @@ app = create_app()
 
 if __name__ == '__main__':
     print("=" * 60)
-    print("  🤖 Buddy AI Interview System — Starting up...")
+    print("  Buddy AI Interview System — Starting up...")
     print("  📍 http://localhost:5000")
     print("  🔑 Admin: http://localhost:5000/admin/login")
     print("=" * 60)

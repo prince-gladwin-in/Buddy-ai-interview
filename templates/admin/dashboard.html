@@ -8,7 +8,7 @@
   <!-- ── Admin Header ── -->
   <div class="admin-header">
     <div>
-      <h1 class="admin-title">🛡️ Admin Dashboard</h1>
+      <h1 class="admin-title"><svg class="admin-title-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="currentColor"/></svg>Admin Dashboard</h1>
       <p class="admin-subtitle">Manage candidates and performance analytics</p>
     </div>
     <a href="{{ url_for('admin.logout') }}" class="btn btn-ghost" id="admin-logout-btn">Sign Out →</a>
@@ -17,22 +17,22 @@
   <!-- ── Stats Row ── -->
   <div class="admin-stats-grid">
     <div class="admin-stat-card">
-      <div class="admin-stat-icon">👤</div>
+      <div class="admin-stat-icon"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4"/><path d="M12 14c-6 0-8 3-8 3v6h16v-6s-2-3-8-3z"/></svg></div>
       <div class="admin-stat-value">{{ stats.total_candidates }}</div>
       <div class="admin-stat-label">Total Candidates</div>
     </div>
     <div class="admin-stat-card">
-      <div class="admin-stat-icon">✅</div>
+      <div class="admin-stat-icon" style="color: #10b981;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
       <div class="admin-stat-value">{{ stats.passed_mcq }}</div>
       <div class="admin-stat-label">Passed MCQ</div>
     </div>
     <div class="admin-stat-card">
-      <div class="admin-stat-icon">🎙️</div>
+      <div class="admin-stat-icon"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 16.91c-1.48 1.46-3.51 2.36-5.7 2.36-2.19 0-4.23-.9-5.7-2.36M9 19h6"/></svg></div>
       <div class="admin-stat-value">{{ stats.verbal_answers }}</div>
       <div class="admin-stat-label">Verbal Answers</div>
     </div>
     <div class="admin-stat-card">
-      <div class="admin-stat-icon">⚠️</div>
+      <div class="admin-stat-icon" style="color: #f59e0b;"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M1 21h22L12 2 1 21zm12-3h-2v2h2v-2zm0-2h-2v2h2v-2zm0-2h-2v2h2v-2z"/></svg></div>
       <div class="admin-stat-value">{{ stats.face_alerts }}</div>
       <div class="admin-stat-label">Face Alerts</div>
     </div>
@@ -128,6 +128,13 @@
                class="action-btn action-btn--candidate"
                id="candidate-report-{{ c.id }}"
                title="Download Candidate Report">📄</a>
+            <button type="button"
+               class="action-btn action-btn--delete"
+               id="delete-candidate-{{ c.id }}"
+               title="Delete Candidate"
+               data-candidate-id="{{ c.id }}"
+               data-candidate-name="{{ c.name }}"
+               onclick="confirmDeleteCandidate(event)">🗑️</button>
           </td>
         </tr>
         {% endfor %}
@@ -157,11 +164,30 @@
 
   {% else %}
   <div class="empty-state">
-    <div class="empty-icon">🔍</div>
+    <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg></div>
     <h3>No candidates found</h3>
     <p>{% if query %}No results for "{{ query }}"{% else %}No candidates registered yet.{% endif %}</p>
   </div>
   {% endif %}
 
 </div>
+
+<script>
+function confirmDeleteCandidate(event) {
+  event.preventDefault();
+  
+  const button = event.target;
+  const candidateId = button.dataset.candidateId;
+  const candidateName = button.dataset.candidateName;
+  
+  if (confirm(`⚠️ Are you sure you want to delete "${candidateName}"?\n\nThis action cannot be undone. All interview records will be permanently deleted.`)) {
+    // Create a hidden form and submit it
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `/admin/delete/${candidateId}`;
+    document.body.appendChild(form);
+    form.submit();
+  }
+}
+</script>
 {% endblock %}

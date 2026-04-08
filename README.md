@@ -1,4 +1,4 @@
-# 🤖 Buddy AI — AI Interview Evaluation System
+# Buddy AI — AI Interview Evaluation System
 
 A complete AI-powered interview evaluation platform built with Flask, featuring semantic verbal scoring, real-time face proctoring, role-specific MCQs, and automated PDF performance reports.
 

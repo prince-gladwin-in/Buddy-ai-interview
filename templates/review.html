@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}MCQ Review — {{ candidate.role }} | Buddy AI{% endblock %}
+{% block meta_description %}AI-generated review and personalized feedback for your MCQ performance.{% endblock %}
+
+{% block content %}
+<div class="review-wrapper">
+  
+  <!-- Header -->
+  <div class="review-header">
+    <h1 class="review-title">Your MCQ Review</h1>
+    <p class="review-subtitle">Personalized AI feedback based on your performance</p>
+  </div>
+
+  <!-- Score Card -->
+  <div class="score-card">
+    <div class="score-circle">
+      <div class="score-percentage">{{ "%.0f"|format(review_data.percentage) }}%</div>
+      <div class="score-label">Score</div>
+    </div>
+    <div class="score-details">
+      <h2>{{ review_data.level }}</h2>
+      <p class="score-ratio">{{ review_data.score }} out of {{ review_data.total }} questions correct</p>
+      <div class="score-bar">
+        <div class="score-bar-fill" style="width: {{ review_data.percentage }}%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Feedback -->
+  <div class="feedback-card">
+    <div class="feedback-header">
+      <h3>AI-Powered Feedback</h3>
+      <span class="feedback-badge">{{ review_data.level }}</span>
+    </div>
+    <p class="feedback-text">{{ review_data.feedback }}</p>
+  </div>
+
+  <!-- Growth Suggestions -->
+  <div class="suggestions-card">
+    <h3>Growth Areas & Recommendations</h3>
+    <div class="growth-category" data-growth="{{ review_data.growth }}">
+      <p class="growth-label">{{ review_data.level }} - {{ review_data.growth|capitalize }} Growth Needed</p>
+      <ul class="suggestions-list">
+        {% for suggestion in review_data.suggestions %}
+        <li class="suggestion-item">{{ suggestion }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="review-actions">
+    {% if mcq_result.passed %}
+      <a href="{{ url_for('candidate.verbal', candidate_id=candidate.id) }}" class="btn btn-primary btn-lg">
+        Proceed to Verbal Interview →
+      </a>
+    {% else %}
+      <a href="{{ url_for('candidate.register') }}" class="btn btn-primary btn-lg">
+        Try Again →
+      </a>
+    {% endif %}
+    <a href="{{ url_for('candidate.index') }}" class="btn btn-ghost btn-lg">
+      Back to Home
+    </a>
+  </div>
+
+  <!-- Performance Breakdown -->
+  <div class="performance-breakdown">
+    <h3>Performance Breakdown</h3>
+    <div class="breakdown-grid">
+      <div class="breakdown-item">
+        <div class="breakdown-label">Role</div>
+        <div class="breakdown-value">{{ candidate.role }}</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-label">Status</div>
+        <div class="breakdown-value {% if mcq_result.passed %}text-success{% else %}text-danger{% endif %}">
+          {% if mcq_result.passed %}Passed ✓{% else %}Not Passed{% endif %}
+        </div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-label">Pass Requirement</div>
+        <div class="breakdown-value">6/10</div>
+      </div>
+      <div class="breakdown-item">
+        <div class="breakdown-label">Completed At</div>
+        <div class="breakdown-value">{{ mcq_result.created_at.strftime('%d %b, %H:%M') }}</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

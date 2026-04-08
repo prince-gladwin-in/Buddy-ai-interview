@@ -44,3 +44,73 @@ Product Manager,What does 'DAU/MAU ratio' indicate?,Daily Active Users divided b
 Product Manager,What is 'scope creep'?,Adding automated tests to a project,The uncontrolled expansion of project scope without proper evaluation,A type of security vulnerability,A database optimization technique,B
 Product Manager,Which technique is used to validate a hypothesis quickly with minimal resources?,Waterfall Development,Usability Testing,Smoke Testing,Concierge MVP,D
 Product Manager,What does 'LTV' stand for in product analytics?,Launch Time Value,Lifetime Value: the predicted revenue a customer will generate during their relationship with a product,Linear Trend Visualization,Long Term Vision,B
+Data Analyst,What does ETL stand for in data processing?,Extract Transform Load,Enterprise Technology Layer,Error Tracking Logs,External Transaction Layer,A
+Data Analyst,Which SQL clause is used to filter grouped data?,WHERE,HAVING,GROUP BY,ORDER BY,B
+Data Analyst,What is a 'data warehouse'?,A physical storage for raw data,A centralized repository designed for analysis and reporting,A backup system for databases,A cloud storage service,B
+Data Analyst,Which tool is commonly used for data visualization?,Excel,Tableau or Power BI,Word,SQL Server,B
+Data Analyst,What does 'correlation' measure in statistics?,The average value of a dataset,The relationship between two variables,The median of a distribution,The mode of data,B
+Data Analyst,What is the purpose of 'data normalization'?,To convert strings to lowercase,To organize data into logical tables and reduce redundancy,To encrypt sensitive data,To merge datasets,B
+Data Analyst,Which data type is best for storing large text values?,INT,VARCHAR(MAX),FLOAT,BOOLEAN,B
+Data Analyst,What does 'null value' represent in databases?,A zero value,An undefined or missing value,An empty string,A false boolean,B
+Data Analyst,How is 'data quality' typically assessed?,By file size,By analyzing accuracy completeness consistency and validity,By counting total rows,By checking backup status,B
+Data Analyst,What does 'VLOOKUP' function do in Excel?,Validates data,Finds a value in one column and returns a value in the same row from another column,Counts cells with specific criteria,Sorts data alphabetically,B
+Data Analyst,Which statistical measure is most affected by outliers?,Mean,Median,Mode,Range,A
+Data Analyst,What is the purpose of 'pivot tables'?,To protect data,To summarize and reorganize data for analysis,To create backups,To validate formulas,B
+Data Analyst,What does 'cardinality' refer to in databases?,The size of a table,The number of unique values in a column or relationship between tables,The number of backups,The query execution time,B
+Data Analyst,Which join type returns only matching records from both tables?,LEFT JOIN,INNER JOIN,FULL OUTER JOIN,RIGHT JOIN,B
+Product Analyst,What is a 'conversion funnel' in product analytics?,A sales pipeline,A visualization showing user progression through stages of a user journey,A type of database,A marketing campaign,B
+Product Analyst,Which metric measures how users interact with a product?,Click-through Rate,Engagement Rate,Bounce Rate,Load Time,B
+Product Analyst,What does 'cohort analysis' help identify?,Product bugs,Changes in user behavior patterns over time,Server downtime,Password violations,B
+Product Analyst,Which event tracking helps measure user adoption?,Sign-ups,Feature Usage,Logins,All of the above,D
+Product Analyst,What is 'retention rate'?,New users acquired per month,The percentage of users who continue using the product after initial acquisition,Average session duration,Number of active users,B
+Product Analyst,How is 'funnel drop-off' identified?,By checking server logs,By analyzing where users leave the funnel at each stage,By measuring page load time,By counting total users,B
+Product Analyst,What does 'session duration' measure?,Total time since account creation,Time spent in a single active session,Annual engagement,Weekly activity stats,B
+Product Analyst,Which metric indicates user satisfaction?,Number of features,Net Promoter Score (NPS),Database size,Number of bug reports,B
+Product Analyst,What is 'A/B testing' used for?,Alphabetically sorting data,Comparing two versions to determine which performs better,Backing up data,Archiving old records,B
+Product Analyst,What does 'attribution modeling' determine?,Data quality,Which touchpoints receive credit for conversions,System performance,User demographics,B
+Product Analyst,How is 'stickiness' measured in product analytics?,By user location,By DAU/MAU ratio or frequency of return,By the number of features,By database performance,B
+Cyber Security,What does 'encryption' do to data?,Makes it faster to access,Converts it into a code that requires a key to decrypt,Deletes the data,Backs up the data,B
+Cyber Security,Which type of attack involves sending fake emails to trick users?,Malware,Phishing,DDoS,Ransomware,B
+Cyber Security,What is a 'firewall'?,A backup system,A network security system that monitors and controls incoming and outgoing traffic,A data recovery tool,A user authentication method,B
+Cyber Security,What does 'SSL/TLS' provide?,File compression,Encrypted communication between client and server,Data storage,User management,B
+Cyber Security,Which attack type floods a server with requests to make it unavailable?,Malware Injection,DDoS (Distributed Denial of Service),Phishing,Man-in-the-Middle,B
+Cyber Security,What is 'two-factor authentication'?,A backup password,A security method requiring two forms of verification,A database encryption,A firewall rule,B
+Cyber Security,What does 'SQL injection' exploit?,Network speed,Improper handling of user input in SQL queries,Server storage,User permissions,B
+Cyber Security,What is a 'vulnerability'?,An outdated software,A weakness in a system that can be exploited,A backup failure,A network delay,B
+Cyber Security,Which principle means giving users only necessary access permissions?,Least Privilege,Full Access,Data Sharing,Network Freedom,A
+Cyber Security,What does 'penetration testing' involve?,Testing new software,Simulating attacks to find security weaknesses,Backing up systems,Monitoring network traffic,B
+Cyber Security,What is 'malware'?,Slow performing software,Malicious software designed to harm or exploit systems,Standard antivirus,User authentication software,B
+Cyber Security,Which certification covers foundational cybersecurity concepts?,CompTIA A+,CompTIA Security+,AWS Solutions Architect,Certified Ethical Hacker,B
+Cyber Security,What is 'phishing'?,A network problem,Social engineering attack using deceptive emails or messages,A database issue,A hardware failure,B
+Cyber Security,What does 'asymmetric encryption' use?,One key for encryption and decryption,Two keys - public and private,No keys,Three keys,B
+Cyber Security,What is the purpose of 'incident response'?,To prevent all attacks,To plan security budgets,To identify and respond to security breaches quickly,To update software,C
+Information Technology,What is 'cloud computing'?,A weather forecasting system,Delivery of computing services over the internet,A data center location,A type of server,B
+Information Technology,Which cloud service model gives users the most control?,SaaS,PaaS,IaaS,All are equal,C
+Information Technology,What does 'API' stand for?,Application Programming Interface,Advanced Processing Input,Application Process Installation,Automated Program Integration,A
+Information Technology,What is 'virtualization'?,Creating multiple logical computers on physical hardware,Making computers smaller,Reducing internet bandwidth,Encrypting data,A
+Information Technology,Which storage technology is most commonly used for fast access?,Magnetic Tape,RAID,SSD (Solid State Drive),Floppy Disk,C
+Information Technology,What is 'bandwidth' in networking?,The width of network cables,The amount of data that can be transmitted in a given time,The speed of a computer,The size of a server,B
+Information Technology,Which IT framework provides guidelines for IT service management?,ITIL,REST,SOAP,XML,A
+Information Technology,What does 'VMware' primarily provide?,Email services,Virtualization and cloud computing solutions,Database management,Web hosting,B
+Information Technology,What is 'disaster recovery'?,Finding lost data,Restoring systems after a disaster to resume operations,Deleting old files,Creating new accounts,B
+Information Technology,Which protocol is used for secure file transfer?,FTP,SFTP (SSH File Transfer Protocol),HTTP,DNS,B
+Information Technology,What is 'load balancing'?,Balancing network cables,Distributing network traffic across multiple servers,Organizing file storage,Managing user permissions,B
+Information Technology,What does 'latency' measure in networks?,Data size,The delay between sending and receiving data,Network security,Processor speed,B
+Information Technology,Which backup strategy backs up only changes since the last backup?,Full backup,Incremental backup,Differential backup,Partial backup,B
+Information Technology,What is 'network segmentation'?,Dividing a network into multiple sub-networks for better security and performance,Connecting all devices together,Removing network protocols,Increasing bandwidth,A
+Information Technology,Which layer of the OSI model deals with physical transmission?,Application Layer,Transport Layer,Data Link Layer,Physical Layer,D
+Prompt Engineering,What is a 'prompt' in AI context?,A database query,An input or instruction given to an AI model to generate a response,A programming command,A system password,B
+Prompt Engineering,Which technique involves asking the model to think step-by-step?,Chain-of-Thought,Direct Prompting,Zero-Shot Learning,Pattern Matching,A
+Prompt Engineering,What does 'context window' refer to?,The browser window size,The maximum number of tokens the model can process in a single prompt,The display resolution,The file size limit,B
+Prompt Engineering,What is 'few-shot prompting'?,Using very short prompts,Providing examples in the prompt to guide model behavior,Asking for a brief response,Limiting the model output,B
+Prompt Engineering,Which approach tells the model to assume a specific role or personality?,Jailbreaking,Role-based Prompting,Random prompting,Statistical analysis,B
+Prompt Engineering,What is 'token' in the context of language models?,A security certificate,A unit of text that the model processes,A database entry,A API key,B
+Prompt Engineering,What does 'temperature' parameter control in AI models?,The execution speed,The randomness or creativity of responses,The memory usage,The data size,B
+Prompt Engineering,What is 'prompt injection'?,Adding more words to a prompt,Attempting to manipulate the model by inserting malicious instructions,Removing special characters,Formatting the text,B
+Prompt Engineering,Which technique helps improve model accuracy?,Ambiguity,Clarity and specificity in prompts,Randomization,Minimizing examples,B
+Prompt Engineering,What is 'zero-shot prompting'?,Using prompts with no data,Asking the model to perform a task without prior examples,With many examples,Training the model,B
+Prompt Engineering,What does 'fine-tuning' do to a model?,Speeds up inference,Adjusts model parameters on specific data to specialize it,Deletes information,Increases model size,B
+Prompt Engineering,What is a 'hallucination' in AI models?,Creating visual images,Generating false or fabricated information confidently,Processing speed,Memory allocation,B
+Prompt Engineering,Which framework helps structure complex prompts?,XML,ReAct (Reasoning and Acting),JSON,CSV,B
+Prompt Engineering,What is 'prompt optimization'?,Making prompts longer,Iteratively refining prompts to get better model outputs,Deleting prompts,Randomizing text,B
+Prompt Engineering,What does 'semantic understanding' mean in prompts?,Grammar checking,The model understanding the meaning and intent behind words,Spell correction,Word counting,B
